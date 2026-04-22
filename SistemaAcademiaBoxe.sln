@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaAcademiaBoxe", "SistemaAcademiaBoxe.csproj", "{D780D6CE-325B-0681-1CCF-11E09E4CE519}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D780D6CE-325B-0681-1CCF-11E09E4CE519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D780D6CE-325B-0681-1CCF-11E09E4CE519}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D780D6CE-325B-0681-1CCF-11E09E4CE519}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D780D6CE-325B-0681-1CCF-11E09E4CE519}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {187F3ED0-73B1-4815-A4B5-89ED6A08DC80}
+	EndGlobalSection
+EndGlobal

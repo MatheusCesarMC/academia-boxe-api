@@ -16,54 +16,41 @@ public class AlunosController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<Aluno>> Get()
+    public async Task<IActionResult> Get()
     {
-        return Ok(_repository.ListarTodos());
+        var alunos = await _repository.GetAll();
+        return Ok(alunos);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Aluno> GetById(string id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        var aluno = _repository.BuscarPorId(id);
+        var aluno = await _repository.GetById(id);
 
         if (aluno == null)
-        {
             return NotFound();
-        }
 
         return Ok(aluno);
     }
 
     [HttpPost]
-    public ActionResult Post([FromBody] Aluno aluno)
+    public async Task<IActionResult> Create(Aluno aluno)
     {
-        _repository.Adicionar(aluno);
+        await _repository.Add(aluno);
         return CreatedAtAction(nameof(GetById), new { id = aluno.Id }, aluno);
     }
 
     [HttpPut("{id}")]
-    public ActionResult Put(string id, [FromBody] Aluno aluno)
+    public async Task<IActionResult> Update(Guid id, Aluno aluno)
     {
-        var atualizado = _repository.Atualizar(id, aluno);
-
-        if (!atualizado)
-        {
-            return NotFound();
-        }
-
+        await _repository.Update(id, aluno);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public ActionResult Delete(string id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var removido = _repository.Remover(id);
-
-        if (!removido)
-        {
-            return NotFound();
-        }
-
+        await _repository.Delete(id);
         return NoContent();
     }
 }

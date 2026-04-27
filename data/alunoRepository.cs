@@ -1,52 +1,39 @@
+using MongoDB.Driver;
 using SistemaAcademiaBoxe.Models;
 
 namespace SistemaAcademiaBoxe.Data;
 
 public class AlunoRepository
 {
-    private readonly List<Aluno> _alunos = new();
+    private readonly IMongoCollection<Aluno> _alunos;
 
-    public List<Aluno> ListarTodos()
+    public AlunoRepository(MongoDbContext context)
     {
-        return _alunos;
+        _alunos = context.Alunos;
     }
 
-    public Aluno? BuscarPorId(string id)
+    public async Task<List<Aluno>> GetAll()
     {
-        return _alunos.FirstOrDefault(a => a.Id == id);
+        return await _alunos.Find(_ => true).ToListAsync();
     }
 
-    public void Adicionar(Aluno aluno)
+    public async Task<Aluno?> GetById(Guid id)
     {
-        _alunos.Add(aluno);
+        return await _alunos.Find(a => a.Id == id).FirstOrDefaultAsync();
     }
 
-    public bool Atualizar(string id, Aluno alunoAtualizado)
+    public async Task Add(Aluno aluno)
     {
-        var aluno = BuscarPorId(id);
-
-        if (aluno == null)
-        {
-            return false;
-        }
-
-        aluno.Nome = alunoAtualizado.Nome;
-        aluno.Email = alunoAtualizado.Email;
-        aluno.Telefone = alunoAtualizado.Telefone;
-
-        return true;
+        await _alunos.InsertOneAsync(aluno);
     }
 
-    public bool Remover(string id)
+    public async Task Update(Guid id, Aluno aluno)
     {
-        var aluno = BuscarPorId(id);
+        await _alunos.ReplaceOneAsync(a => a.Id == id, aluno);
+    }
 
-        if (aluno == null)
-        {
-            return false;
-        }
-
-        _alunos.Remove(aluno);
-        return true;
+    public async Task Delete(Guid id)
+    {
+        await _alunos.DeleteOneAsync(a => a.Id == id);
     }
 }

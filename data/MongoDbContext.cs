@@ -17,4 +17,7 @@ public class MongoDbContext
 
     public IMongoCollection<Aluno> Alunos =>
         _database.GetCollection<Aluno>("alunos");
+
+    public IMongoCollection<Professor> Professores =>
+    _database.GetCollection<Professor>("professores");
 }

@@ -198,6 +198,10 @@ async function mostrarProfessores() {
                         ${professor.telefone}
                     </p>
 
+                    <button onclick="deletarProfessor('${professor.id}')">
+                        Excluir
+                    </button>
+
                 </div>
             `;
         });
@@ -265,4 +269,19 @@ async function deletarAluno(id) {
     });
 
     mostrarAlunos();
+}
+
+async function deletarProfessor(id) {
+
+    const confirmar = confirm("Deseja excluir est professor?");
+
+    if (!confirmar) {
+        return;
+    }
+
+    await fetch(`${apiUrl}/Professores/${id}`, {
+        method: "DELETE"
+    });
+
+    mostrarProfessores();
 }

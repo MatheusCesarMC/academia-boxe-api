@@ -59,6 +59,8 @@ async function mostrarAlunos() {
                         ${aluno.professorResponsavel}
                     </p>
 
+                    <button onclick="deletarAluno('${aluno.id}')">Excluir</button>
+
                 </div>
             `;
         });
@@ -248,4 +250,19 @@ async function cadastrarProfessor(event) {
     });
 
     mostrarProfessores();
+}
+
+async function deletarAluno(id) {
+
+    const confirmar = confirm("Deseja excluir este aluno?");
+
+    if (!confirmar) {
+        return;
+    }
+
+    await fetch(`${apiUrl}/Alunos/${id}`, {
+        method: "DELETE"
+    });
+
+    mostrarAlunos();
 }

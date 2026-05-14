@@ -1,6 +1,7 @@
 const apiUrl = "http://localhost:5126/api";
 
 let alunoEditandoId = null;
+let professorEditandoId = null;
 
 async function mostrarAlunos() {
 
@@ -229,6 +230,16 @@ async function mostrarProfessores() {
                         ${professor.telefone}
                     </p>
 
+                    <button onclick="editarProfessor(
+                        '${professor.id}',
+                        '${professor.nome}',
+                        '${professor.especialidade}',
+                        '${professor.email}',
+                        '${professor.telefone}'
+                    )">
+                        Editar
+                    </button>
+
                     <button onclick="deletarProfessor('${professor.id}')">
                         Excluir
                     </button>
@@ -274,8 +285,10 @@ async function cadastrarProfessor(event) {
         telefone: document.getElementById("telefoneProfessor").value
     };
 
-    await fetch(`${apiUrl}/Professores`, {
-        method: "POST",
+   if (professorEditandoId) {
+
+    await fetch(`${apiUrl}/Professores/${professorEditandoId}`, {
+        method: "PUT",
 
         headers: {
             "Content-Type": "application/json"
@@ -283,6 +296,21 @@ async function cadastrarProfessor(event) {
 
         body: JSON.stringify(professor)
     });
+
+    professorEditandoId = null;
+
+    } else {
+
+        await fetch(`${apiUrl}/Professores`, {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(professor)
+        });
+    }
 
     mostrarProfessores();
 }
@@ -322,10 +350,18 @@ function editarAluno(id, nome, email, telefone, professor) {
     alunoEditandoId = id;
 
     document.getElementById("nomeAluno").value = nome;
-
     document.getElementById("emailAluno").value = email;
-
     document.getElementById("telefoneAluno").value = telefone;
-
     document.getElementById("professorAluno").value = professor;
+}
+
+function editarProfessor(id, nome, especialidade, email, telefone) {
+
+    professorEditandoId = id;
+
+    document.getElementById("nomeProfessor").value = nome;
+    document.getElementById("especialidadeProfessor").value = especialidade
+    document.getElementById("emailProfessor").value = email;
+    document.getElementById("telefoneProfessor").value = telefone;
+    
 }

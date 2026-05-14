@@ -47,6 +47,13 @@ public class ProfessoresController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, Professor professor)
     {
+        var professorExistente = await _repository.GetById(id);
+
+        if (professorExistente == null)
+            return NotFound();
+
+        professor.Id = id;
+
         await _repository.Update(id, professor);
 
         return NoContent();

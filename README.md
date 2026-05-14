@@ -53,7 +53,7 @@ git clone https://github.com/MatheusCesarMC/academia-boxe-api.git
 
 ## 2. Abra o projeto
 
-Abra a pasta do projeto no Visual Studio Code ou Visual Studio.
+Abra a pasta do projeto no VSCODE.
 
 ---
 

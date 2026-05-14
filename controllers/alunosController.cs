@@ -40,12 +40,20 @@ public class AlunosController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = aluno.Id }, aluno);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, Aluno aluno)
-    {
-        await _repository.Update(id, aluno);
-        return NoContent();
-    }
+   [HttpPut("{id}")]
+public async Task<IActionResult> Update(Guid id, Aluno aluno)
+{
+    var alunoExistente = await _repository.GetById(id);
+
+    if (alunoExistente == null)
+        return NotFound();
+
+    aluno.Id = id;
+
+    await _repository.Update(id, aluno);
+
+    return NoContent();
+}
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)

@@ -1,5 +1,7 @@
 const apiUrl = "http://localhost:5126/api";
 
+let alunoEditandoId = null;
+
 async function mostrarAlunos() {
 
     const resposta = await fetch(`${apiUrl}/Alunos`);
@@ -59,6 +61,16 @@ async function mostrarAlunos() {
                         ${aluno.professorResponsavel}
                     </p>
 
+                    <button onclick="editarAluno(
+                        '${aluno.id}',
+                        '${aluno.nome}',
+                        '${aluno.email}',
+                        '${aluno.telefone}',
+                        '${aluno.professorResponsavel}'
+                    )">
+                        Editar
+                    </button>
+
                     <button onclick="deletarAluno('${aluno.id}')">Excluir</button>
 
                 </div>
@@ -102,8 +114,11 @@ async function cadastrarAluno(event) {
         professorResponsavel: document.getElementById("professorAluno").value
     };
 
-    await fetch(`${apiUrl}/Alunos`, {
-        method: "POST",
+    if (alunoEditandoId) {
+
+    await fetch(`${apiUrl}/Alunos/${alunoEditandoId}`, {
+
+        method: "PUT",
 
         headers: {
             "Content-Type": "application/json"
@@ -111,6 +126,22 @@ async function cadastrarAluno(event) {
 
         body: JSON.stringify(aluno)
     });
+
+    alunoEditandoId = null;
+
+    } else {
+
+        await fetch(`${apiUrl}/Alunos`, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(aluno)
+        });
+    }
 
     mostrarAlunos();
 }
@@ -284,4 +315,17 @@ async function deletarProfessor(id) {
     });
 
     mostrarProfessores();
+}
+
+function editarAluno(id, nome, email, telefone, professor) {
+
+    alunoEditandoId = id;
+
+    document.getElementById("nomeAluno").value = nome;
+
+    document.getElementById("emailAluno").value = email;
+
+    document.getElementById("telefoneAluno").value = telefone;
+
+    document.getElementById("professorAluno").value = professor;
 }

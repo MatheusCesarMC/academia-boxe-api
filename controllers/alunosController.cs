@@ -42,7 +42,7 @@ public class AlunosController : ControllerBase
 
    [HttpPut("{id}")]
 public async Task<IActionResult> Update(Guid id, Aluno aluno)
-{
+    {
     var alunoExistente = await _repository.GetById(id);
 
     if (alunoExistente == null)

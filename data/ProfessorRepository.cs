@@ -3,6 +3,7 @@ using SistemaAcademiaBoxe.Models;
 
 namespace SistemaAcademiaBoxe.Data;
 
+// Classe responsável por acessar e manipular os dados de Professor no MongoDB
 public class ProfessorRepository
 {
     private readonly IMongoCollection<Professor> _professores;

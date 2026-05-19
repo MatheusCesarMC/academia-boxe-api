@@ -5,8 +5,10 @@ namespace SistemaAcademiaBoxe.Models;
 
 public class Professor
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.String)]
+    [BsonId]// identificador único no MongoDB(chave primaria)
+    [BsonRepresentation(BsonType.String)]// Armazena o Guid como string no banco
+
+    // ID único gerado automaticamente para cada aluno
     public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Nome { get; set; } = string.Empty;

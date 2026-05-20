@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
-builder.Services.AddSingleton<MongoDbContext>();
+builder.Services.AddSingleton<MongoDbContext>();//ASP.NET dependencia(repositorio)
 
 builder.Services.AddCors(options =>
 {

@@ -46,19 +46,25 @@ public async Task<IActionResult> Update(Guid id, Aluno aluno)
     var alunoExistente = await _repository.GetById(id);
 
     if (alunoExistente == null)
-        return NotFound();
+        return NotFound();// 404 
 
     aluno.Id = id;
 
     await _repository.Update(id, aluno);
 
-    return NoContent();
+    return NoContent();//204 (No Content) deu certo, mas sem nada para devolver
 }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
+        var aluno = await _repository.GetById(id);
+
+        if (aluno == null)
+            return NotFound();// 404
+
         await _repository.Delete(id);
-        return NoContent();
+
+        return NoContent();//204 (No Content) deu certo, mas sem nada para devolver
     }
 }

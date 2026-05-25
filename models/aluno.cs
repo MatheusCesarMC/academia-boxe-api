@@ -13,5 +13,6 @@ public class Aluno
     public string Nome { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Telefone { get; set; } = string.Empty;
-    public string ProfessorResponsavel { get; set; } = string.Empty;
+    public string ProfessorId { get; set; } = string.Empty;
+    public string ProfessorNome { get; set; } = string.Empty;
 }

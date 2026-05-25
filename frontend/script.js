@@ -8,6 +8,9 @@ async function mostrarAlunos() {
     const resposta = await fetch(`${apiUrl}/Alunos`); //busca da API
     const alunos = await resposta.json(); // Transforma a resposta JSON em objeto JavaScript
 
+    const respostaProfessores = await fetch(`${apiUrl}/Professores`);
+    const professores = await respostaProfessores.json();
+
     const conteudo = document.getElementById("conteudo"); //busca a div html
 
     //html dinamico dentro do js
@@ -27,13 +30,25 @@ async function mostrarAlunos() {
 
             <input type="text" id="telefoneAluno" placeholder="Telefone" required>
 
-            <input type="text" id="professorAluno" placeholder="Professor Responsável" required>
+            <select id="professorAluno" required>
+                <option value="">Selecione um professor</option>
+            </select>
 
             <button type="submit">Cadastrar Aluno</button>
         </form>
 
         <div id="listaAlunos"></div>
     `;
+
+    const selectProfessor = document.getElementById("professorAluno");
+
+    professores.forEach(professor => {
+        selectProfessor.innerHTML += `
+            <option value="${professor.id}">
+                ${professor.nome}
+            </option>
+        `;
+    });
 
     function renderizarAlunos(listaAlunos) {
 
@@ -60,7 +75,7 @@ async function mostrarAlunos() {
 
                     <p>
                         <strong>Professor:</strong>
-                        ${aluno.professorResponsavel}
+                        ${aluno.professorNome}
                     </p>
 
                     <button onclick="editarAluno(
@@ -68,7 +83,7 @@ async function mostrarAlunos() {
                         '${aluno.nome}',
                         '${aluno.email}',
                         '${aluno.telefone}',
-                        '${aluno.professorResponsavel}'
+                        '${aluno.professorId}'
                     )">
                         Editar
                     </button>
@@ -92,7 +107,7 @@ async function mostrarAlunos() {
 
                 aluno.nome.toLowerCase().includes(texto) ||
 
-                aluno.professorResponsavel
+                aluno.professorNome
                     .toLowerCase()
                     .includes(texto)
             );
@@ -109,11 +124,14 @@ async function cadastrarAluno(event) {
 
     event.preventDefault();
 
+    const selectProfessor = document.getElementById("professorAluno");
+
     const aluno = {
         nome: document.getElementById("nomeAluno").value,
         email: document.getElementById("emailAluno").value,
         telefone: document.getElementById("telefoneAluno").value,
-        professorResponsavel: document.getElementById("professorAluno").value
+        professorId: selectProfessor.value,
+        professorNome: selectProfessor.options[selectProfessor.selectedIndex].text
     };
 
     if (alunoEditandoId) {
@@ -346,7 +364,7 @@ async function deletarProfessor(id) {
     mostrarProfessores();
 }
 
-function editarAluno(id, nome, email, telefone, professor) {
+function editarAluno(id, nome, email, telefone, professorId) {
 
     alunoEditandoId = id;
 

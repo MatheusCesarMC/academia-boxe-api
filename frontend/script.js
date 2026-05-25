@@ -5,11 +5,12 @@ let professorEditandoId = null;
 
 async function mostrarAlunos() {
 
-    const resposta = await fetch(`${apiUrl}/Alunos`);
-    const alunos = await resposta.json();
+    const resposta = await fetch(`${apiUrl}/Alunos`); //busca da API
+    const alunos = await resposta.json(); // Transforma a resposta JSON em objeto JavaScript
 
-    const conteudo = document.getElementById("conteudo");
+    const conteudo = document.getElementById("conteudo"); //busca a div html
 
+    //html dinamico dentro do js
     conteudo.innerHTML = `
         <h2>Alunos</h2>
 

@@ -61,7 +61,12 @@ Ao salvar um aluno, o sistema armazena:
 
 Isso permite identificar corretamente qual professor está vinculado ao aluno, fortalecendo o relacionamento entre as entidades do sistema.
 
-Exemplo:
+## Diagrama do Relacionamento
+
+A imagem abaixo representa o relacionamento entre professores e alunos no sistema:
+![Relacionamento 1:N](docs/relacionamento-1-n.png)
+
+## Exemplo de Estrutura
 
 ```json
 {

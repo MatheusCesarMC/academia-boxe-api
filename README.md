@@ -64,7 +64,7 @@ Isso permite identificar corretamente qual professor está vinculado ao aluno, f
 ## Diagrama do Relacionamento
 
 A imagem abaixo representa o relacionamento entre professores e alunos no sistema:
-![Relacionamento 1:N](docs/relacionamento-1-n.png)
+![Relacionamento 1:N](docs/Relacionamento1-N.png)
 
 ## Exemplo de Estrutura
 

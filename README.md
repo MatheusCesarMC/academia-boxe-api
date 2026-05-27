@@ -11,7 +11,7 @@ O sistema permite:
 - Edição de alunos e professores
 - Exclusão de alunos e professores
 - Pesquisa dinâmica sem recarregar a página
-- Relacionamento simples entre alunos e professores
+- Relacionamento entre alunos e professores
 
 O projeto foi desenvolvido utilizando ASP.NET Core Web API no backend, MongoDB como banco de dados e HTML/CSS/JavaScript no frontend.
 
@@ -41,6 +41,39 @@ O projeto foi desenvolvido utilizando ASP.NET Core Web API no backend, MongoDB c
 
 ---
 
+## Relacionamento entre Entidades
+
+O sistema possui relacionamento entre alunos e professores.
+
+A relação utilizada é de 1 para N:
+
+- Um professor pode possuir vários alunos.
+- Um aluno possui apenas um professor responsável.
+
+No cadastro de alunos, o sistema realiza uma busca dos professores cadastrados na API e exibe esses professores em um campo de seleção (`select`) no frontend.
+
+O usuário seleciona manualmente o professor responsável pelo aluno durante o cadastro.
+
+Ao salvar um aluno, o sistema armazena:
+
+- ProfessorId
+- ProfessorNome
+
+Isso permite identificar corretamente qual professor está vinculado ao aluno, fortalecendo o relacionamento entre as entidades do sistema.
+
+Exemplo:
+
+```json
+{
+  "nome": "João",
+  "email": "joao@email.com",
+  "telefone": "99999-9999",
+  "professorId": "id-do-professor",
+  "professorNome": "Professor Exemplo"
+}
+```
+
+---
 # Como Executar o Projeto
 
 ## 1. Clone o repositório

@@ -36,13 +36,24 @@ public class AlunosController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Aluno aluno)
     {
+        var alunoExistente = await _repository.GetByNomeEmailOrTelefone(
+            aluno.Nome,
+            aluno.Email,
+            aluno.Telefone
+        );
+
+        if (alunoExistente != null)
+        {
+            return BadRequest("Ja existe um aluno cadastrado com este nome, email ou telefone.");
+        }
+
         await _repository.Add(aluno);
         return CreatedAtAction(nameof(GetById), new { id = aluno.Id }, aluno);
     }
 
    [HttpPut("{id}")]
-public async Task<IActionResult> Update(Guid id, Aluno aluno)
-    {
+    public async Task<IActionResult> Update(Guid id, Aluno aluno)
+        {
     var alunoExistente = await _repository.GetById(id);
 
     if (alunoExistente == null)
@@ -53,7 +64,7 @@ public async Task<IActionResult> Update(Guid id, Aluno aluno)
     await _repository.Update(id, aluno);
 
     return NoContent();//204 (No Content) deu certo, mas sem nada para devolver
-}
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)

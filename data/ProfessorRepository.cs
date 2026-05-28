@@ -1,3 +1,4 @@
+using System.Drawing;
 using MongoDB.Driver;
 using SistemaAcademiaBoxe.Models;
 
@@ -36,5 +37,14 @@ public class ProfessorRepository
     public async Task Delete(Guid id)
     {
         await _professores.DeleteOneAsync(p => p.Id == id);
+    }
+
+    public async Task<Professor?> GetByNomeEmailOrTelefone(string nome, string email, string telefone)
+    {
+    return await _professores
+        .Find(p =>
+            p.Nome == nome || p.Email == email || p.Telefone == telefone
+        )
+        .FirstOrDefaultAsync();
     }
 }

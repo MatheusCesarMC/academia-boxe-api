@@ -36,12 +36,17 @@ public class ProfessoresController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Professor professor)
     {
+        var professorExistente = await _repository.GetByNomeEmailOrTelefone(
+            professor.Nome,
+            professor.Email,
+            professor.Telefone
+        );
+        if (professorExistente != null)
+        {
+            return BadRequest("Ja existe um professor cadastrado com este nome, email ou telefone.");
+        }
         await _repository.Add(professor);
-
-        return CreatedAtAction(
-            nameof(GetById),
-            new { id = professor.Id },
-            professor);
+        return CreatedAtAction(nameof(GetById), new { id = professor.Id }, professor);
     }
 
     [HttpPut("{id}")]

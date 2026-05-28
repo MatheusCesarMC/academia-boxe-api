@@ -308,7 +308,7 @@ async function cadastrarProfessor(event) {
         telefone: document.getElementById("telefoneProfessor").value
     };
 
-   if (professorEditandoId) {
+    if (professorEditandoId) {
 
     await fetch(`${apiUrl}/Professores/${professorEditandoId}`, {
         method: "PUT",
@@ -324,15 +324,22 @@ async function cadastrarProfessor(event) {
 
     } else {
 
-        await fetch(`${apiUrl}/Professores`, {
-            method: "POST",
+    const resposta = await fetch(`${apiUrl}/Professores`, {
+         method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        headers: {
+               "Content-Type": "application/json"
+           },
 
-            body: JSON.stringify(professor)
-        });
+        body: JSON.stringify(professor)
+    });
+
+    if (!resposta.ok) {
+
+        const mensagem = await resposta.text();
+        alert(mensagem);
+        return;
+        }
     }
 
     mostrarProfessores();

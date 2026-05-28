@@ -151,18 +151,22 @@ async function cadastrarAluno(event) {
 
     } else {
 
-        await fetch(`${apiUrl}/Alunos`, {
+    const resposta = await fetch(`${apiUrl}/Alunos`, {
+    method: "POST",
 
-            method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+        body: JSON.stringify(aluno)
+    });
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+    if (!resposta.ok) {
 
-            body: JSON.stringify(aluno)
-        });
+            const mensagem = await resposta.text();
+            alert(mensagem);
+            return;
+        }
     }
-
     mostrarAlunos();
 }
 

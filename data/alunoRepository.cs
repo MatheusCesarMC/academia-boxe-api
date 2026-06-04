@@ -38,7 +38,7 @@ public class AlunoRepository
         await _alunos.DeleteOneAsync(a => a.Id == id);
     }
 
-    public async Task<Aluno?> GetByNomeEmailOrTelefone(string nome, string email, string telefone)
+    public async Task<Aluno?> GetByDadosDuplicados(string nome, string email, string telefone)
     {
         return await _alunos
             .Find(a => a.Email == email || a.Telefone == telefone || a.Nome == nome )

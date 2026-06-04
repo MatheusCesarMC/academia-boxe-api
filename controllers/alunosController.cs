@@ -36,7 +36,7 @@ public class AlunosController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Aluno aluno)
     {
-        var alunoExistente = await _repository.GetByNomeEmailOrTelefone(
+        var alunoExistente = await _repository.GetByDadosDuplicados(
             aluno.Nome,
             aluno.Email,
             aluno.Telefone

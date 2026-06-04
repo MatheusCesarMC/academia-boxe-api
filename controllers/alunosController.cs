@@ -28,7 +28,7 @@ public class AlunosController : ControllerBase
         var aluno = await _repository.GetById(id);
 
         if (aluno == null)
-            return NotFound();
+            return NotFound("Aluno não encontrado.");//404
 
         return Ok(aluno);
     }
@@ -57,7 +57,7 @@ public class AlunosController : ControllerBase
     var alunoExistente = await _repository.GetById(id);
 
     if (alunoExistente == null)
-        return NotFound();// 404 
+        return NotFound("Aluno não encontrado.");// 404 
 
     aluno.Id = id;
 
@@ -72,7 +72,7 @@ public class AlunosController : ControllerBase
         var aluno = await _repository.GetById(id);
 
         if (aluno == null)
-            return NotFound();// 404
+            return NotFound("Aluno não encontrado.");// 404
 
         await _repository.Delete(id);
 

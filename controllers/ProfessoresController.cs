@@ -28,7 +28,7 @@ public class ProfessoresController : ControllerBase
         var professor = await _repository.GetById(id);
 
         if (professor == null)
-            return NotFound();
+            return NotFound("Professor não encontrado.");//404 erro
 
         return Ok(professor);
     }
@@ -55,7 +55,7 @@ public class ProfessoresController : ControllerBase
         var professorExistente = await _repository.GetById(id);
 
         if (professorExistente == null)
-            return NotFound();
+            return NotFound("Professor não encontrado."); //erro 404
 
         professor.Id = id;
 
@@ -67,8 +67,13 @@ public class ProfessoresController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _repository.Delete(id);
+        var professor = await _repository.GetById(id);
 
-        return NoContent();
+        if (professor == null)
+        {
+            return NotFound("Professor não encontrado."); //404 error
+        }
+        await _repository.Delete(id);
+        return NoContent(); //204 (No Content) deu certo, mas sem nada para devolver
     }
 }

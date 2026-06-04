@@ -166,9 +166,3 @@ Para executar o frontend:
 - Editar professor
 - Excluir professor
 - Pesquisar professor
-
----
-
-# Autor
-
-Matheus Cesar Medeiros de Carvalho

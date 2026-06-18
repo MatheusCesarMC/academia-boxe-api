@@ -2,6 +2,7 @@ const apiUrl = "http://localhost:5126/api";
 
 let alunoEditandoId = null;
 let professorEditandoId = null;
+let professoresCarregados = [];
 
 async function mostrarAlunos() {
 
@@ -10,6 +11,7 @@ async function mostrarAlunos() {
 
     const respostaProfessores = await fetch(`${apiUrl}/Professores`);
     const professores = await respostaProfessores.json();
+    professoresCarregados = professores;
 
     const conteudo = document.getElementById("conteudo"); //busca a div html
 
@@ -75,7 +77,7 @@ async function mostrarAlunos() {
 
                     <p>
                         <strong>Professor:</strong>
-                        ${aluno.professorNome}
+                        ${aluno.professor?.nome || "Sem professor"}
                     </p>
 
                     <button onclick="editarAluno(
@@ -83,7 +85,7 @@ async function mostrarAlunos() {
                         '${aluno.nome}',
                         '${aluno.email}',
                         '${aluno.telefone}',
-                        '${aluno.professorId}'
+                        '${aluno.professor?.id || ""}'
                     )">
                         Editar
                     </button>
@@ -106,8 +108,10 @@ async function mostrarAlunos() {
             const filtrados = alunos.filter(aluno =>
 
                 aluno.nome.toLowerCase().includes(texto) ||
+                aluno.email.toLowerCase().includes(texto) ||
+                aluno.telefone.toLowerCase().includes(texto) ||
 
-                aluno.professorNome
+                aluno.professor?.nome
                     .toLowerCase()
                     .includes(texto)
             );
@@ -126,42 +130,61 @@ async function cadastrarAluno(event) {
 
     const selectProfessor = document.getElementById("professorAluno");
 
+    const professorSelecionado = professoresCarregados.find(
+        professor => professor.id === selectProfessor.value
+    );
+    
+    if (!professorSelecionado) {
+    alert("Selecione um professor valido.");
+    return;
+    }
+
     const aluno = {
         nome: document.getElementById("nomeAluno").value,
         email: document.getElementById("emailAluno").value,
         telefone: document.getElementById("telefoneAluno").value,
-        professorId: selectProfessor.value,
-        professorNome: selectProfessor.options[selectProfessor.selectedIndex].text
+
+        professor: {
+            id: professorSelecionado.id,
+            nome: professorSelecionado.nome,
+            especialidade: professorSelecionado.especialidade
+        }
     };
 
     if (alunoEditandoId) {
 
-    await fetch(`${apiUrl}/Alunos/${alunoEditandoId}`, {
+        const resposta = await fetch(`${apiUrl}/Alunos/${alunoEditandoId}`, {
 
-        method: "PUT",
+            method: "PUT",
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-        body: JSON.stringify(aluno)
-    });
+            body: JSON.stringify(aluno)
+        });
 
-    alunoEditandoId = null;
+        if (!resposta.ok) {
+            const mensagem = await resposta.text();
+            alert(mensagem);
+            return;
+        }
+
+        alunoEditandoId = null;
 
     } else {
 
-    const resposta = await fetch(`${apiUrl}/Alunos`, {
-    method: "POST",
+        const resposta = await fetch(`${apiUrl}/Alunos`, {
+            method: "POST",
 
-    headers: {
-        "Content-Type": "application/json"
-    },
-        body: JSON.stringify(aluno)
-    });
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    if (!resposta.ok) {
+            body: JSON.stringify(aluno)
+        });
 
+        if (!resposta.ok) {
             const mensagem = await resposta.text();
             alert(mensagem);
             return;
@@ -283,10 +306,9 @@ async function mostrarProfessores() {
             const filtrados = professores.filter(professor =>
 
                 professor.nome.toLowerCase().includes(texto) ||
-
-                professor.especialidade
-                    .toLowerCase()
-                    .includes(texto)
+                professor.especialidade.toLowerCase().includes(texto) ||
+                professor.email.toLowerCase().includes(texto) ||
+                professor.telefone.toLowerCase().includes(texto)
             );
 
             renderizarProfessores(filtrados);
@@ -382,7 +404,7 @@ function editarAluno(id, nome, email, telefone, professorId) {
     document.getElementById("nomeAluno").value = nome;
     document.getElementById("emailAluno").value = email;
     document.getElementById("telefoneAluno").value = telefone;
-    document.getElementById("professorAluno").value = professor;
+    document.getElementById("professorAluno").value = professorId;
 }
 
 function editarProfessor(id, nome, especialidade, email, telefone) {

@@ -53,17 +53,17 @@ public class AlunosController : ControllerBase
 
    [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, Aluno aluno)
-        {
-    var alunoExistente = await _repository.GetById(id);
+    {
+        var alunoExistente = await _repository.GetById(id);
 
-    if (alunoExistente == null)
-        return NotFound("Aluno não encontrado.");// 404 
+        if (alunoExistente == null)
+            return NotFound("Aluno não encontrado.");// 404 
 
-    aluno.Id = id;
+        aluno.Id = id;
 
-    await _repository.Update(id, aluno);
+        await _repository.Update(id, aluno);
 
-    return NoContent();//204 (No Content) deu certo, mas sem nada para devolver
+        return NoContent();//204 (No Content) deu certo, mas sem nada para devolver
     }
 
     [HttpDelete("{id}")]

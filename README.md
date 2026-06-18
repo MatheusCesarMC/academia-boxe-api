@@ -117,8 +117,6 @@ Exemplo:
 }
 ```
 
-> Por segurança, a string de conexão real não deve ser enviada para o GitHub.
-
 ---
 
 ## 4. Execute a API
@@ -178,9 +176,3 @@ Para executar o frontend:
 * Pesquisar professor por nome, especialidade, email ou telefone
 
 ---
-
-# Observação sobre a Modelagem
-
-A modelagem utilizada busca aproveitar melhor o funcionamento do MongoDB, armazenando os dados básicos do professor diretamente dentro do documento do aluno.
-
-Dessa forma, o sistema evita depender de uma estrutura relacional tradicional e representa os dados de maneira mais próxima ao modelo documental.
